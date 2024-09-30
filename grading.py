@@ -1,34 +1,34 @@
-"""Welcome to your Python assignment! This task will help you practice working with lists, 
-user input, and basic calculations. Follow the steps below:
-Create a List: Start by creating a list named days that includes all seven days of the week.
-Initialize an Empty List: Create an empty list called steps. 
-This will store the number of steps taken each day.
-User Input: Using a loop, ask the user to enter the number of steps they took for each day, 
-based on your days list. For example, "How many steps did you take on Monday?"
-Store Steps: Append the user's input (number of steps) to the steps list for each day.
-Display Daily Steps: Show the user the steps recorded for each day.
-Total Steps: Calculate and display the total number of steps taken in the week.
-Average Steps: Create a variable named average to calculate the average steps taken. 
-Use the formula: average = round(total / len(steps)). Display the average steps.
-Remember to test your program to ensure it runs correctly."""
+# Wednesday 09/18/2024 3.3A Logical Operations
 
-days = ["Monday", "Tuesday", "Wednesday",
-        "Thursday", "Friday", "Saturday", "Sunday"]
-steps = []
-total = 0
-for day in days:
-    my_steps = int(input(f"How many steps did you walk on {day}: "))
-    steps.append(my_steps)
-    total += my_steps
+int1 = int(input("Please enter an integer: "))
+int2 = int(input("Please enter another integer: "))
 
-average = total / 7
-# average=round(total_steps/7) what i originally wrote before rereading instructions
-for i in range(len(days)):
-    day = days[i]
-    step = steps[i]
-    print(f"You walked {step} steps on {day}")
+if int1 >= 16 and int2 >= 16:
+    print("Both numbers are greater than or equal 16")
+else:
+    print("Not all numbers are greater than or equal 16")
 
+if int1 <= 56 and int2 <= 56:
+    print("Both numbers are less than or equal 56")
+else:
+    print("Not all numbers are less then or equal 56")
 
-average = round(total / len(steps))
-print(f"You walked a total of {total} steps with an average of {
-      average:.0f} of steps per day")
+if (int1 % 2) == 0 or (int2 % 2) == 0:
+    print("Either number is even")
+else:
+    print("Neither number is even")
+
+if (int1 % 7 == 0) or (int2 % 7 == 0):
+    print("Either number is divisible by 7")
+else:
+    print("Neither number is divisible by 7")
+
+if not int1 > int2:
+    print("Integer one is not greater than integer 2.")
+else:
+    print("Integer one is greater than integer 2.")
+
+if not int2 >= 250:
+    print("Integer two is not greater or equal to 250")
+else:
+    print("Integer two is greater than or equal to 250.")
