@@ -1,27 +1,41 @@
-"""
-    
-    This program will ask user input for their heartrate at specific times
-    and then average them and display the data to the terminal
-"""
+# BMI_calculator assignment
+# Start functions to convert variables
+def calculate_kilograms(WEIGHT):
+    global KILOGRAMS
+    KILOGRAMS = WEIGHT*0.45359
+    return KILOGRAMS
 
-# initializing variables
-time_slots = ["Morning", "Midday", "Afternoon", "Evening"]
-heart_rates = []
-total = 0
-average = 0
 
-# iterates through time_slots and adds the BPMs to each element of the list with data from user input
-for time in time_slots:
-    heart_rate_temp = input(f"Enter your heart rate for {time}: ")
-    heart_rates.append([time, heart_rate_temp])
-print(heart_rates)
+def calculate_meters(HEIGHT):
+    global METERS
+    METERS = HEIGHT*0.0254
+    return HEIGHT
 
-# list is 4 times long, so needs to repeat 4 times
-for i in range(4):
-    time = heart_rates[i][0]
-    heart_rate = heart_rates[i][1]
-    total += int(heart_rate)  # totaling up rates for average calculation
-    print(f"At {time}, your heart rate was: {heart_rate} BPM")
+# Calculate BMI
 
-average = total / 4
-print(f"Your average heart rate was {average} BPM.")
+
+def calculate_BMI():
+    global BMI
+    BMI = KILOGRAMS/(METERS*METERS)
+# Start the main part of the program
+
+
+def main():
+    print("Hello user I am a BMI caluclator.")
+    HEIGHT = float(input("Please enter your height in inches: "))
+    WEIGHT = float(input("Please enter your weight in pounds: "))
+    calculate_kilograms(WEIGHT)
+    calculate_meters(HEIGHT)
+    calculate_BMI()
+    print(f"Your BMI is {BMI:.2f}.")
+    if BMI < 18.5:
+        print("You are in the underweight category")
+    elif BMI < 24.9:
+        print("You are in the normal weight category.")
+    elif BMI < 29.9:
+        print("You are in the overweight category.")
+    elif BMI >= 30:
+        print("You are in the obese category.")
+
+
+main()
