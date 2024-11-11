@@ -15,8 +15,8 @@ def main():
     except ValueError:
         print("Oh no! That isn't a number!")
         main()
-    except:
-        print("That isn't valid input!")
+    except Exception as e:
+        print(f"That isn't valid input!\n {e}")
         main()
 
 
