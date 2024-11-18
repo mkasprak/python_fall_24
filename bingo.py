@@ -1,4 +1,3 @@
-
 """
 Program: Sing the song 'Bingo' using code
 Summary: This program generates verses of the song "Bingo" with a dog named Bingo. Each verse replaces 
