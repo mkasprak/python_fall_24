@@ -1,44 +1,31 @@
-"""_summary_
-"""
-# Assignment: Handling List Exceptions
-# Objective: Write a Python program that handles exceptions related to list operations.
-# Your program will start with a predefined list of the top ten performing artists of all time
-# and will include functionality to modify this list based on user input.
-
-# Task 1: Modify Artist List: Write a function to replace an artist in the top_artists list. The function should ask the user for an index and a new artist name. Ensure your function catches and handles ValueError for invalid number conversion and IndexError for out-of-range indices.
-
-
-def main():  # TODO the assignment started with main function am I suppose to give the function a specific name for this assignment
+def main():  # reads the file and increments a counter and adds the numbers to a total
+    total = 0
+    count = 0
     try:
-        top_artists = ["The Beatles", "Madonna", "Elton John", "Elvis Presley", "Mariah Carey",
-                       "Stevie Wonder", "Janet Jackson", "Michael Jackson", "Whitney Houston", "Rihanna"]
+        with open('sales.txt', 'r') as file:
+            line = True
+            while line:
+                line = file.readline()
+                line = line.strip()
+                if line:  # this makes sure it doesnt try to pass an empty line as that makes the program blow up
+                    print(f"${float(line):,.2f}")
+                    count += 1  # increments counter
+                    # below this adds the value to the total each time
+                    total += float(line)
+            average = total / count  # averages it for printing
+            print(f"{count} sales.")
+            print(f"${total:,.2f} in total sales.")
+            print(f"${average:,.2f} average sales.")
 
-# Use input() to get user input for the index and new artist name.
-# Convert the index input to an integer using int(). This might raise a ValueError if the input is not a valid integer.
+    except IOError:
+        print("An IOError has occurred. File not found.")
 
-        index = int(
-            input("Enter the index of the artist you want to replace (0-9): "))
-        new_artist = input("Enter the new artist name: ")
-# When replacing an artist in the list, accessing an invalid index will raise an IndexError.
-        top_artists[index] = new_artist
-        print(f"Artist {index} has been replaced with {new_artist}.")
-        print("The list of Top Artists have been updated: ", top_artists)
+    except ValueError:
+        # should catch and print bad lines
+        print(f"{line} this entry is not a valid sales entry")
 
-# Task 2: General Error Handling: Modify your function to catch both ValueError and IndexError using a single except block.
-# Provide a general error message like "An input error occurred."
-# Remember that you can catch multiple exceptions in a single block by using a tuple for general error handling.
-
-    # i first used multiple except blocks but that caused you to also enter the new artist name even though you used index 10 but it fixed with using the single except block.
-    except (ValueError, IndexError) as e:
-        # TODO understand why the multiple except block didn't work fully I wonder if
-        print("An input error occurred.", e)
-
-# I don't think you want the exception block for this assignment commented out
-    # except Exception as e: # I don't think you want the exception block for this assignment
-    #     print("An unexpected error occurred:", e)
-
-# TODO get more specific with what is inputed because as of now you can input artist name as ### or just a number.
+    except Exception as e:
+        print("an error has occured {e}")  # should catch unknown errors
 
 
-# call the function
 main()
