@@ -6,8 +6,10 @@
 """
 
 
-def menu(customer):
+def menu():
     try:
+        customer = check()
+        print(customer)  # error checking can delete
         print("Greetings! What would like to do do today?")
         choice = 0
         while choice != 5:
@@ -66,12 +68,56 @@ def create(customers):
 
 
 def update(customers):
-    print("update")
-    find(customers)
+    try:
+        print("We will update an existing record. ")
+        account = find(customers)
+        changeme = customers[account].split(",")
+        for item in changeme:
+            print(item)
+
+        if (type(account)) == int:
+            print("Account Found!")
+            print(f"The record is: {customers[account]}")
+        else:
+            print(f"Record not found!\n{account}")
+
+        # menu for changing item
+        choice = True
+        while choice:
+            print("1:  Change First Name\n2:  Change Last Name\n3:  Change Email")
+            choice = int(
+                input("Please enter the number of the value that you want to change:  "))
+
+            if choice == 1:
+                fname = input("Please enter the new first name:  ")
+                changeme[0] = fname
+                choice = False
+            elif choice == 2:
+                lname = input("Please enter the new last name:  ")
+                changeme[1] = lname
+                choice = False
+            elif choice == 3:
+                email = input("please enter the new email:  ")
+                changeme[2] = email
+                choice = False
+            else:
+                "That is not a valid choice"
+                choice = False
+
+        change = ",".join(changeme)
+        print(change, "Is the updated record.")
+        customers[account] = change
+        save(customers)
+
+    except Exception as e:
+        print("Not a valid menu choice, ", e)
 
 
 def delete(customers):
     print("delete")
+    # call find, get index
+    # pop index
+    # call save passing customer
 
 
 def find(customers):
@@ -85,17 +131,21 @@ def find(customers):
     for line in customers:
         line = line.strip("\n")
         record = line.split(',')
-        print(record[2])
+
         if record[2] == email:
             print("Found!", line)
             return my_index
         else:
             my_index += 1
-    print("Record not found for phone: ", phone)
+    print("\n\nRecord not found for email: ", email)
+    return "I'm sorry, that record does not exist\n\n"
 
 
 def display(customers):
     print("display")
+    # call find
+    # get back index
+    # print a nicely formatted record
 
 
 def save(customers):
@@ -115,9 +165,8 @@ def save(customers):
 def main():
     # menu for user
     # customer will be the list of customer records
-    customer = check()  # Does the file exist? If yes, copy to list, if no, create list
-    print(customer)
-    menu(customer)
+
+    menu()
 
     # check()  # does the file exist? create it/ copy to list
     # save()  # save the list to a file
