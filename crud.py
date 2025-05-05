@@ -1,41 +1,39 @@
 """
     _summary_
     CRUD - Create, Read, Update, Delete
-
-
 """
-
 
 def menu():
     try:
         customer = check()
         print(customer)  # error checking can delete
-        print("Greetings! What would like to do do today?")
+        print("Greetings! What would you like to do today?")
         choice = 0
         while choice != 5:
-            # menu will dispaly options, accept a number, then call the appropriate function
-            print("1.  Search for and display a record.")
+            print("\n1.  Search for and display a record.")
             print("2.  Create a new record.")
             print("3.  Update an existing record")
             print("4.  Delete an existing record")
             print("5.  Quit the program.")
-            choice = int(input("Please enter the number of your selection: "))
-            if choice == 1:
-                display(customer)
-            elif choice == 2:
-                create(customer)
-            elif choice == 3:
-                update(customer)
-            elif choice == 4:
-                delete(customer)
-            elif choice == 5:
-                print("Goodbye!")
-            else:
-                print("I don't understand!")
+            try:
+                choice = int(input("Please enter the number of your selection: "))
+                if choice == 1:
+                    display(customer)
+                elif choice == 2:
+                    create(customer)
+                elif choice == 3:
+                    update(customer)
+                elif choice == 4:
+                    delete(customer)
+                elif choice == 5:
+                    print("Goodbye!")
+                else:
+                    print("That wasn't one of the options—please try again.")
+            except ValueError:
+                print("Please enter a number between 1 and 5.")
 
     except Exception as e:
-        print("Invalid! ", e)
-
+        print("Invalid!", e)
 
 def check():
     try:
@@ -46,136 +44,100 @@ def check():
         customers = []
         return customers
     except Exception as e:
-        print("Unsuccessfull: ", e)
-
+        print("Unsuccessful:", e)
+        return []
 
 def create(customers):
-    # create a new record, call the save function and save to the external file.
-    print("Create a new record!")
+    print("\nCreate a new record!")
     f_name = input("Please enter the first name: ").capitalize()
     l_name = input("Please enter the last name: ").capitalize()
     email = input("Please enter the email:  ")
     record = f_name + "," + l_name + "," + email + "\n"
     customers.append(record)
-    # print(customers)
     save(customers)
 
-
+# TODO: Implement optional read() function
 # def read(customers):
-#     print("read")
-#  optionall approach instead of passing around the list
-#  Project Creep
+#     print("Read function - optional for student implementation")
 
 
 def update(customers):
     try:
-        print("We will update an existing record. ")
+        print("\nWe will update an existing record.")
         account = find(customers)
-        changeme = customers[account].split(",")
-        for item in changeme:
-            print(item)
-
-        if (type(account)) == int:
-            print("Account Found!")
-            print(f"The record is: {customers[account]}")
-        else:
-            print(f"Record not found!\n{account}")
-
-        # menu for changing item
-        choice = True
-        while choice:
+        if isinstance(account, int):
+            changeme = customers[account].strip().split(",")
+            print(f"Account Found!\nCurrent Record: {customers[account]}")
+            print("\nWhat would you like to change?")
             print("1:  Change First Name\n2:  Change Last Name\n3:  Change Email")
-            choice = int(
-                input("Please enter the number of the value that you want to change:  "))
+            choice = int(input("Please enter the number of the value that you want to change:  "))
 
             if choice == 1:
                 fname = input("Please enter the new first name:  ")
                 changeme[0] = fname
-                choice = False
             elif choice == 2:
                 lname = input("Please enter the new last name:  ")
                 changeme[1] = lname
-                choice = False
             elif choice == 3:
-                email = input("please enter the new email:  ")
+                email = input("Please enter the new email:  ")
                 changeme[2] = email
-                choice = False
             else:
-                "That is not a valid choice"
-                choice = False
+                print("That is not a valid choice")
 
-        change = ",".join(changeme)
-        print(change, "Is the updated record.")
-        customers[account] = change
-        save(customers)
+            change = ",".join(changeme) + "\n"
+            customers[account] = change
+            print("Updated Record:", change)
+            save(customers)
+        else:
+            print(account)
 
     except Exception as e:
-        print("Not a valid menu choice, ", e)
-
+        print("Not a valid menu choice,", e)
 
 def delete(customers):
-    print("delete")
-    # call find, get index
-    # pop index
-    # call save passing customer
+    print("\nDelete a record")
+    index = find(customers)
+    if isinstance(index, int):
+        print(f"Deleting: {customers[index]}")
+        customers.pop(index)
+        save(customers)
+    else:
+        print(index)
 
 
 def find(customers):
-    # find a customer, return the index of the customer
-    # search by phone number
-    # return index
-    # TODO Note: in VERSION 2 - allow searching by last name
     print("Let me look for that record for you.")
-    email = input("Please enter the email you want to look for.")
-    my_index = 0
-    for line in customers:
-        line = line.strip("\n")
-        record = line.split(',')
-
-        if record[2] == email:
-            print("Found!", line)
-            return my_index
-        else:
-            my_index += 1
-    print("\n\nRecord not found for email: ", email)
-    return "I'm sorry, that record does not exist\n\n"
+    email = input("Please enter the email you want to look for: ")
+    for i, line in enumerate(customers):
+        record = line.strip().split(',')
+        if len(record) == 3 and record[2] == email:
+            print("Found!", line.strip())
+            return i
+    return "I'm sorry, that record does not exist."
 
 
 def display(customers):
-    print("display")
-    # call find
-    # get back index
-    # print a nicely formatted record
+    print("\nDisplay a record")
+    index = find(customers)
+    if isinstance(index, int):
+        fields = customers[index].strip().split(',')
+        print("First Name:", fields[0])
+        print("Last Name:", fields[1])
+        print("Email:", fields[2])
+    else:
+        print(index)
 
 
 def save(customers):
-    # called any time a change is made
-    # writes the customers list to the data.txt file
     try:
         with open("data.txt", "w") as file:
             for line in customers:
                 file.write(line)
-        file.close()
-        print(customers)
-        print("Successfully saved.")
+        print("\nSuccessfully saved.")
     except Exception as e:
         print("Oops. That didn't work!", e)
 
-
 def main():
-    # menu for user
-    # customer will be the list of customer records
-
     menu()
-
-    # check()  # does the file exist? create it/ copy to list
-    # save()  # save the list to a file
-    # create()  # create a new record
-    # read()  # read records
-    # find()  # find and display a record
-    # update()  # change a record
-    # delete()  # remove a record
-    # display()  # display a record
-
 
 main()
